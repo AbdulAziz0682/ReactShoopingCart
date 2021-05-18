@@ -57,17 +57,13 @@ const initState = {
 export default function cartReducer(state = initState, action) {
   switch (action.type) {
     case "ADD_TO_CART": {
-      console.log("Adding item");
-      state.addedItems.push(
-        (() => {
-          state.items.forEach((element) => {
-            if (element.id == action.payload.id) {
-              return element;
-            }
-          });
-        })()
-      );
-      break;
+      let newState = {
+        items: [...state.items],
+        addedItems: [...state.addedItems, state.items.filter((item) => item.id === action.payload.id)],
+        total: ++state.total
+      };
+      console.log("new state: ", newState);
+      return newState;
     }
     default: {
       return state;

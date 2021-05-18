@@ -38,15 +38,14 @@ class Shop extends React.Component {
 }
 
 function mapStateToProps(state) {
+  console.log("state is: ", state);
   return {
     items: state.items
   };
 }
-function dispatchActionsToProps(actions) {
+function dispatchActionsToProps(dispatch) {
   return {
-    addToCart: (id) => {
-      actions.addToCart(id);
-    }
+    addToCart: (id) => dispatch({ type: "ADD_TO_CART", payload: { id: id } })
   };
 }
 export default connect(mapStateToProps, dispatchActionsToProps)(Shop);
