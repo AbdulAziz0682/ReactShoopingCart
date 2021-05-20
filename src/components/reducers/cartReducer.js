@@ -50,8 +50,7 @@ const initState = {
       img: Item6
     }
   ],
-  addedItems: [],
-  total: 0
+  addedItems: []
 };
 
 export default function cartReducer(state = initState, action) {
@@ -59,10 +58,33 @@ export default function cartReducer(state = initState, action) {
     case "ADD_TO_CART": {
       let newState = {
         items: [...state.items],
-        addedItems: [...state.addedItems, state.items.filter((item) => item.id === action.payload.id)],
-        total: ++state.total
+        addedItems: [...state.addedItems, ...state.items.filter((item) => item.id === action.payload.id)]
       };
-      console.log("new state: ", newState);
+      return newState;
+    }
+    case "REMOVE_FROM_CART": {
+      let remainingAddedItems = [];
+      let isFound = false;
+      for (let i = 0; i < state.addedItems.length; i++) {
+        if (action.payload.id === state.addedItems[i].id && !isFound) {
+          isFound = true;
+          continue;
+        } else {
+          remainingAddedItems.push(
+            (() => {
+              for (let j = 0; j < state.addedItems; j++) {
+                if (state.addedItems[j].id === state.addedItems[i].id) {
+                  return state.addedItems[i];
+                }
+              }
+            })()
+          );
+        }
+      }
+      let newState = {
+        items: [...state.items],
+        addedItems: [...remainingAddedItems]
+      };
       return newState;
     }
     default: {

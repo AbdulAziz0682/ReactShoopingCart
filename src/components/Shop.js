@@ -6,10 +6,7 @@ class Shop extends React.Component {
     return (
       <div className="w3-container">
         <h4 className="w3-header w3-center w3-light-gray w3-stretch">Our items</h4>
-        <div
-          className="w3-row-padding"
-          //style={{ padding: "1% 2%", margin: "10px" }}
-        >
+        <div className="w3-row-padding">
           {this.props.items.map((item) => {
             return (
               <div className="w3-card w3-col s4 m3 w3-mobile" key={item.id}>
@@ -38,7 +35,6 @@ class Shop extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log("state is: ", state);
   return {
     items: state.items
   };
