@@ -45,10 +45,23 @@ class Cart extends React.Component {
       );
     });
   };
+  calculateTotalPrice = () => {
+    let price = 0;
+    this.props.addedItems.forEach((item) => {
+      price += item.price;
+    });
+    return price;
+  };
   render() {
     return (
       <div className="w3-container">
-        <h4 className="w3-row w3-header w3-stretch w3-center w3-light-gray">Your Cart</h4>
+        <h4 className="w3-row w3-header w3-col s8 w3-center w3-light-gray w3-mobile">Your Cart</h4>
+        <h4 className="w3-row w3-header w3-col s4 w3-light-gray w3-mobile">
+          <span className="w3-center w3-half">Total Price: ${this.calculateTotalPrice()}</span>
+          <span className="w3-red w3-half w3-center w3-hover-orange" onClick={() => this.props.clearCart()}>
+            Clear Cart
+          </span>
+        </h4>
         <div className="w3-cell-row w3-container">{this.getCards(this.props.addedItems)}</div>
       </div>
     );
@@ -67,6 +80,9 @@ function dispatchActionsToProps(dispatch) {
     },
     removeFromCart: (id) => {
       dispatch({ type: "REMOVE_FROM_CART", payload: { id: id } });
+    },
+    clearCart: () => {
+      dispatch({ type: "CLEAR_CART" });
     }
   };
 }

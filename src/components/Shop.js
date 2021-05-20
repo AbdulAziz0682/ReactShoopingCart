@@ -24,7 +24,7 @@ class Shop extends React.Component {
                   </button>
                 </div>
                 <p className="w3-row">{item.desc}</p>
-                <p className="w3-row w3-right">Price: {item.price}</p>
+                <p className="w3-row w3-right">Price: ${item.price}</p>
               </div>
             );
           })}

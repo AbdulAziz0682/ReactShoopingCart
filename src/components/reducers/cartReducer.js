@@ -30,7 +30,7 @@ const initState = {
     },
     {
       id: 4,
-      title: "White",
+      title: "Black",
       desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.",
       price: 260,
       img: Item4
@@ -63,27 +63,18 @@ export default function cartReducer(state = initState, action) {
       return newState;
     }
     case "REMOVE_FROM_CART": {
-      let remainingAddedItems = [];
-      let isFound = false;
-      for (let i = 0; i < state.addedItems.length; i++) {
-        if (action.payload.id === state.addedItems[i].id && !isFound) {
-          isFound = true;
-          continue;
-        } else {
-          remainingAddedItems.push(
-            (() => {
-              for (let j = 0; j < state.addedItems; j++) {
-                if (state.addedItems[j].id === state.addedItems[i].id) {
-                  return state.addedItems[i];
-                }
-              }
-            })()
-          );
-        }
-      }
+      let foundIndex = state.addedItems.findIndex((item) => item.id === action.payload.id);
+      let remainingAddedItems = [...state.addedItems.slice(0, foundIndex), ...state.addedItems.slice(foundIndex + 1)];
       let newState = {
         items: [...state.items],
         addedItems: [...remainingAddedItems]
+      };
+      return newState;
+    }
+    case "CLEAR_CART": {
+      let newState = {
+        items: [...state.items],
+        addedItems: []
       };
       return newState;
     }
